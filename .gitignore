@@ -1,0 +1,104 @@
+# ===== OS =====
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ===== IDE =====
+# JetBrains (IntelliJ IDEA, CLion)
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+cmake-build-*/
+
+# VS Code
+.vscode/
+*.code-workspace
+.history/
+
+# Eclipse / NetBeans
+.classpath
+.project
+.settings/
+.metadata/
+bin/
+nbproject/
+nbbuild/
+nbdist/
+
+# Vim / Emacs
+*.swp
+*.swo
+*~
+\#*\#
+.\#*
+
+# ===== Java =====
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+hs_err_pid*
+replay_pid*
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+!.mvn/wrapper/maven-wrapper.properties
+
+# Gradle
+.gradle/
+build/
+!**/gradle/wrapper/gradle-wrapper.jar
+
+# ===== C / C++ =====
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+*.app
+*.d
+*.gch
+*.pch
+*.dSYM/
+
+# Бинарники бенчмарка из README
+bench
+bench_tsan
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+CMakeUserPresets.json
+compile_commands.json
+Makefile
+_deps/
+
+# ===== Прочее =====
+*.log
+*.tmp
+*.bak
+.env

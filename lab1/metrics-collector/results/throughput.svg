@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="620" viewBox="0 0 860 620" font-family="Helvetica, Arial, sans-serif" font-size="13">
+<rect width="860" height="620" fill="white"/>
+<text x="70" y="28" font-size="16" font-weight="bold">Пропускная способность record(), млн оп/сек (лог. шкала)</text>
+<line x1="70" x2="830" y1="470.0" y2="470.0" stroke="#e5e5e5"/>
+<text x="62" y="474.0" text-anchor="end" fill="#555">5</text>
+<line x1="70" x2="830" y1="421.4" y2="421.4" stroke="#e5e5e5"/>
+<text x="62" y="425.4" text-anchor="end" fill="#555">10</text>
+<line x1="70" x2="830" y1="372.8" y2="372.8" stroke="#e5e5e5"/>
+<text x="62" y="376.8" text-anchor="end" fill="#555">20</text>
+<line x1="70" x2="830" y1="308.6" y2="308.6" stroke="#e5e5e5"/>
+<text x="62" y="312.6" text-anchor="end" fill="#555">50</text>
+<line x1="70" x2="830" y1="260.0" y2="260.0" stroke="#e5e5e5"/>
+<text x="62" y="264.0" text-anchor="end" fill="#555">100</text>
+<line x1="70" x2="830" y1="211.4" y2="211.4" stroke="#e5e5e5"/>
+<text x="62" y="215.4" text-anchor="end" fill="#555">200</text>
+<line x1="70" x2="830" y1="147.2" y2="147.2" stroke="#e5e5e5"/>
+<text x="62" y="151.2" text-anchor="end" fill="#555">500</text>
+<line x1="70" x2="830" y1="98.6" y2="98.6" stroke="#e5e5e5"/>
+<text x="62" y="102.6" text-anchor="end" fill="#555">1000</text>
+<line x1="70" x2="830" y1="50.0" y2="50.0" stroke="#e5e5e5"/>
+<text x="62" y="54.0" text-anchor="end" fill="#555">2000</text>
+<text x="146.0" y="492" text-anchor="middle" fill="#555">1</text>
+<text x="298.0" y="492" text-anchor="middle" fill="#555">2</text>
+<text x="450.0" y="492" text-anchor="middle" fill="#555">4</text>
+<text x="602.0" y="492" text-anchor="middle" fill="#555">8</text>
+<text x="754.0" y="492" text-anchor="middle" fill="#555">10</text>
+<text x="450.0" y="516" text-anchor="middle">Число потоков T</text>
+<line x1="70" x2="830" y1="470" y2="470" stroke="#333"/>
+<circle cx="146.0" cy="139.6" r="4" fill="#7f7f7f"><title>556.7</title></circle>
+<line x1="70" x2="94" y1="555" y2="555" stroke="#7f7f7f" stroke-width="3"/>
+<text x="102" y="559">Этап 0: однопоточный baseline</text>
+<polyline points="146.0,191.7 298.0,266.7 450.0,255.4 602.0,287.7 754.0,234.6" fill="none" stroke="#d62728" stroke-width="2.5"/>
+<circle cx="146.0" cy="191.7" r="4" fill="#d62728"><title>265.1</title></circle>
+<circle cx="298.0" cy="266.7" r="4" fill="#d62728"><title>90.9</title></circle>
+<circle cx="450.0" cy="255.4" r="4" fill="#d62728"><title>106.7</title></circle>
+<circle cx="602.0" cy="287.7" r="4" fill="#d62728"><title>67.3</title></circle>
+<circle cx="754.0" cy="234.6" r="4" fill="#d62728"><title>143.6</title></circle>
+<line x1="430" x2="454" y1="555" y2="555" stroke="#d62728" stroke-width="3"/>
+<text x="462" y="559">Этап 1: пустой лок</text>
+<polyline points="146.0,181.0 298.0,346.8 450.0,430.2 602.0,283.6 754.0,331.5" fill="none" stroke="#ff7f0e" stroke-width="2.5"/>
+<circle cx="146.0" cy="181.0" r="4" fill="#ff7f0e"><title>308.6</title></circle>
+<circle cx="298.0" cy="346.8" r="4" fill="#ff7f0e"><title>29.0</title></circle>
+<circle cx="450.0" cy="430.2" r="4" fill="#ff7f0e"><title>8.8</title></circle>
+<circle cx="602.0" cy="283.6" r="4" fill="#ff7f0e"><title>71.4</title></circle>
+<circle cx="754.0" cy="331.5" r="4" fill="#ff7f0e"><title>36.1</title></circle>
+<line x1="70" x2="94" y1="579" y2="579" stroke="#ff7f0e" stroke-width="3"/>
+<text x="102" y="583">Этап 1: единый лок</text>
+<polyline points="146.0,193.3 298.0,364.1 450.0,395.4 602.0,372.8 754.0,393.6" fill="none" stroke="#9467bd" stroke-width="2.5"/>
+<circle cx="146.0" cy="193.3" r="4" fill="#9467bd"><title>259.0</title></circle>
+<circle cx="298.0" cy="364.1" r="4" fill="#9467bd"><title>22.7</title></circle>
+<circle cx="450.0" cy="395.4" r="4" fill="#9467bd"><title>14.5</title></circle>
+<circle cx="602.0" cy="372.8" r="4" fill="#9467bd"><title>20.0</title></circle>
+<circle cx="754.0" cy="393.6" r="4" fill="#9467bd"><title>14.9</title></circle>
+<line x1="430" x2="454" y1="579" y2="579" stroke="#9467bd" stroke-width="3"/>
+<text x="462" y="583">Этап 2: 16 шардов</text>
+<polyline points="146.0,186.9 298.0,140.2 450.0,104.4 602.0,87.1 754.0,81.4" fill="none" stroke="#2ca02c" stroke-width="2.5"/>
+<circle cx="146.0" cy="186.9" r="4" fill="#2ca02c"><title>283.7</title></circle>
+<circle cx="298.0" cy="140.2" r="4" fill="#2ca02c"><title>552.4</title></circle>
+<circle cx="450.0" cy="104.4" r="4" fill="#2ca02c"><title>920.2</title></circle>
+<circle cx="602.0" cy="87.1" r="4" fill="#2ca02c"><title>1177.9</title></circle>
+<circle cx="754.0" cy="81.4" r="4" fill="#2ca02c"><title>1278.8</title></circle>
+<line x1="70" x2="94" y1="603" y2="603" stroke="#2ca02c" stroke-width="3"/>
+<text x="102" y="607">Этап 3: thread-local</text>
+<polyline points="146.0,187.7 298.0,146.5 450.0,115.1 602.0,103.3 754.0,100.0" fill="none" stroke="#1f77b4" stroke-width="2.5"/>
+<circle cx="146.0" cy="187.7" r="4" fill="#1f77b4"><title>280.4</title></circle>
+<circle cx="298.0" cy="146.5" r="4" fill="#1f77b4"><title>504.8</title></circle>
+<circle cx="450.0" cy="115.1" r="4" fill="#1f77b4"><title>790.7</title></circle>
+<circle cx="602.0" cy="103.3" r="4" fill="#1f77b4"><title>935.2</title></circle>
+<circle cx="754.0" cy="100.0" r="4" fill="#1f77b4"><title>979.8</title></circle>
+<line x1="430" x2="454" y1="603" y2="603" stroke="#1f77b4" stroke-width="3"/>
+<text x="462" y="607">Этап 4: двойная буферизация</text>
+</svg>

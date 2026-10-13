@@ -1,0 +1,13 @@
+collector,snapshots,broken_percent,buckets_less,buckets_greater,record_calls,final_count,final_diff
+striped-lock,10000,74.67,7056,411,111710,111710,0
+striped-lock,10000,61.29,5504,625,149485,149485,0
+striped-lock,10000,92.14,9143,71,185848,185848,0
+thread-local,10000,96.30,9629,1,7992313,7992313,0
+thread-local,10000,74.67,7264,203,113995,113995,0
+thread-local,10000,98.64,9864,0,17851453,17851453,0
+double-buffer,10000,0.00,0,0,173779,173779,0
+double-buffer,10000,0.00,0,0,3163064,3163064,0
+double-buffer,10000,0.00,0,0,3192169,3192169,0
+double-buffer-no-recheck,10000,97.85,9785,0,120937,120897,-40
+double-buffer-no-recheck,10000,89.45,8666,279,61055,60968,-87
+double-buffer-no-recheck,10000,99.09,9909,0,2827354,2827326,-28
