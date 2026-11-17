@@ -28,7 +28,15 @@ tasks.test {
     }
 }
 
-// ./gradlew benchmark --args="double-buffer 1 2 4 8 10"
+// Все параметры экспериментов задаются в org.labs.Main перед запуском.
+tasks.register<JavaExec>("run") {
+    group = "lab"
+    description = "Запуск режима, выбранного в Main.java"
+    classpath = sourceSets.main.get().runtimeClasspath
+    mainClass = "org.labs.Main"
+}
+
+// ./gradlew benchmark
 tasks.register<JavaExec>("benchmark") {
     group = "lab"
     description = "Замер пропускной способности одного коллектора (отдельная JVM на вызов)"
@@ -36,10 +44,17 @@ tasks.register<JavaExec>("benchmark") {
     mainClass = "org.labs.benchmark.Benchmark"
 }
 
-// ./gradlew consistency --args="striped-lock"
+// ./gradlew consistency
 tasks.register<JavaExec>("consistency") {
     group = "lab"
     description = "Стресс-тест согласованности снимков sum(buckets) == count"
     classpath = sourceSets.main.get().runtimeClasspath
     mainClass = "org.labs.benchmark.ConsistencyCheck"
+}
+
+tasks.register<JavaExec>("runAll") {
+    group = "lab"
+    description = "Полный прогон с настройками Main.java и отдельной JVM на коллектор"
+    classpath = sourceSets.main.get().runtimeClasspath
+    mainClass = "org.labs.Main\$AllRuns"
 }

@@ -3,54 +3,28 @@ package org.labs.benchmark;
 import org.labs.MetricsCollector;
 import org.labs.collectors.CollectorType;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 
 public final class Benchmark {
 
-    public static final int[] DEFAULT_THREADS = {1, 2, 4, 8, 10};
-
     private Benchmark() {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        if (args.length == 0) {
-            System.err.println("Использование: Benchmark <collector> [threads...] [--seconds N] [--runs N] [--warmup N]");
-            System.err.println("Коллекторы: " + CollectorType.ids());
-            System.exit(2);
-        }
+        org.labs.Main.requireNoArguments(args);
+        org.labs.Main.runBenchmark();
+    }
 
-        CollectorType type = CollectorType.byId(args[0]);
-        Settings defaults = Settings.defaults();
-        long warmup = defaults.warmupMillis();
-        long seconds = defaults.runMillis();
-        int runs = defaults.runs();
-        List<Integer> threads = new ArrayList<>();
-
-        for (int i = 1; i < args.length; i++) {
-            switch (args[i]) {
-                case "--seconds" -> seconds = (long) (Double.parseDouble(args[++i]) * 1000);
-                case "--warmup" -> warmup = (long) (Double.parseDouble(args[++i]) * 1000);
-                case "--runs" -> runs = Integer.parseInt(args[++i]);
-                default -> threads.add(Integer.parseInt(args[i]));
-            }
-        }
-        if (threads.isEmpty()) {
-            Arrays.stream(DEFAULT_THREADS).forEach(threads::add);
-        }
-        if (!type.threadSafe()) {
-            threads = List.of(1);
-        }
-        Settings settings = new Settings(warmup, seconds, runs);
-
-        long[] values = Zipf.generate();
+    public static void runConfigured(CollectorType type, int[] threads, long[] values,
+                                     Settings settings) throws InterruptedException {
         System.err.printf("%s, cpus=%d, warmup=%dms, %d x %dms%n",
-                type.title(), Runtime.getRuntime().availableProcessors(), warmup, runs, seconds);
-
-        for (int t : threads) {
+                type.title(), Runtime.getRuntime().availableProcessors(),
+                settings.warmupMillis(), settings.runs(), settings.runMillis());
+        // Однопоточный baseline нельзя запускать несколькими писателями.
+        int[] actualThreads = type.threadSafe() ? threads : new int[]{1};
+        for (int t : actualThreads) {
             Point point = measurePoint(type, values, t, settings);
             System.err.printf(Locale.ROOT, "  T=%-2d  %8.2f млн оп/сек  runs=%s  count=%d%n",
                     t, point.opsPerSec() / 1e6, formatRuns(point.runs()), point.finalCount());
@@ -129,8 +103,10 @@ public final class Benchmark {
 
     public record Settings(long warmupMillis, long runMillis, int runs) {
 
-        public static Settings defaults() {
-            return new Settings(5_000, 5_000, 5);
+        public Settings {
+            if (warmupMillis < 0 || runMillis <= 0 || runs <= 0) {
+                throw new IllegalArgumentException("warmupMillis >= 0, runMillis > 0, runs > 0 required");
+            }
         }
     }
 

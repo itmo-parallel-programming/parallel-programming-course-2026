@@ -9,33 +9,16 @@ import java.util.concurrent.CountDownLatch;
 
 public final class ConsistencyCheck {
 
-    public static final int DEFAULT_WRITERS = 4;
-    public static final int DEFAULT_SNAPSHOTS = 10_000;
-
     private ConsistencyCheck() {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        if (args.length == 0) {
-            System.err.println("Использование: ConsistencyCheck <collector> [--writers N] [--snapshots N] [--repeat N]");
-            System.err.println("Коллекторы: " + CollectorType.ids());
-            System.exit(2);
-        }
+        org.labs.Main.requireNoArguments(args);
+        org.labs.Main.runConsistency();
+    }
 
-        CollectorType type = CollectorType.byId(args[0]);
-        int writers = DEFAULT_WRITERS;
-        int snapshots = DEFAULT_SNAPSHOTS;
-        int repeat = 1;
-        for (int i = 1; i < args.length; i++) {
-            switch (args[i]) {
-                case "--writers" -> writers = Integer.parseInt(args[++i]);
-                case "--snapshots" -> snapshots = Integer.parseInt(args[++i]);
-                case "--repeat" -> repeat = Integer.parseInt(args[++i]);
-                default -> throw new IllegalArgumentException("Неизвестный аргумент: " + args[i]);
-            }
-        }
-
-        long[] values = Zipf.generate();
+    public static void runConfigured(CollectorType type, long[] values, int writers,
+                                     int snapshots, int repeat) throws InterruptedException {
         System.err.printf("%s: %d писателя, %d снимков%n", type.title(), writers, snapshots);
         for (int r = 0; r < repeat; r++) {
             Report report = run(type.create(), values, writers, snapshots);
