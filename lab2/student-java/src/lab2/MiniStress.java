@@ -6,7 +6,7 @@ import java.util.concurrent.CyclicBarrier;
 
 /** Mini-jcstress, store buffering:  T1: x=1; r1=y    T2: y=1; r2=x
  *  (0,0) means each thread missed the other's write — forbidden under seq_cst.
- *  ministress <mode> <rounds> <cells>, mode: plain | acqrel | volatile | naive */
+ *  Настройки запуска находятся в Main.java. */
 public final class MiniStress {
     static final VarHandle INT = MethodHandles.arrayElementVarHandle(int[].class);
     static int[] x, y, r1, r2;
@@ -28,12 +28,19 @@ public final class MiniStress {
     }
 
     public static void main(String[] a) throws Exception {
-        String mode = a[0];
-        int rounds = Integer.parseInt(a[1]);
+        Main.requireNoArguments(a);
+        Main.runMiniStress();
+    }
+
+    public static void run(String mode, int rounds, int batchSize) throws Exception {
+        if (!java.util.Set.of("plain", "acqrel", "volatile", "naive").contains(mode))
+            throw new IllegalArgumentException("unknown memory mode " + mode);
+        if (rounds <= 0 || batchSize <= 0)
+            throw new IllegalArgumentException("MEMORY_ROUNDS and MEMORY_CELLS must be positive");
         boolean naive = mode.equals("naive");               // a barrier around every single pair
-        int cells = naive ? 1 : Integer.parseInt(a[2]);
+        int cells = naive ? 1 : batchSize;
         String m = naive ? "plain" : mode;
-        int roundsTotal = naive ? rounds * Integer.parseInt(a[2]) : rounds;
+        int roundsTotal = naive ? Math.multiplyExact(rounds, batchSize) : rounds;
         x = new int[cells]; y = new int[cells]; r1 = new int[cells]; r2 = new int[cells];
         long[] hist = new long[4];                          // index = r1*2 + r2
         CyclicBarrier go = new CyclicBarrier(3), done = new CyclicBarrier(3);

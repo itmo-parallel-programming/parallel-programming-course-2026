@@ -1,5 +1,7 @@
 # Лаба 2 — коротко и по делу
 
+**Запуск Java теперь настраивается переменными в `Main` — см. раздел 11.**
+
 Полная методичка и заполненный отчёт: [`../README.md`](../README.md). Здесь только суть задания: что строим, зачем и в каком порядке.
 
 ---
@@ -49,7 +51,7 @@
 
 | Файл | Кто пишет | Что это |
 |---|---|---|
-| `Main.java` | дано, не трогать | Runner: разбирает аргументы и печатает результат |
+| `Main.java` | точка настройки | Все параметры запуска и runner с прежним форматом результатов |
 | `Targets.java` | дано | Тестовые программы с расставленными точками переключения |
 | `Stress.java`, `MiniStress.java` | дано | Стресс-тест (этап 0) и mini-jcstress (этап 7) |
 | `Strategy.java` | дано | Интерфейс стратегии: `pick`, `beginRun`, `endRun` |
@@ -169,15 +171,47 @@ explored 1334 schedules, 0 fail  (... s)
 
 ---
 
-## 11. Сборка и запуск (Java)
+## 11. Настройка и запуск (Java)
+
+Все параметры задаются в начале [`src/lab2/Main.java`](src/lab2/Main.java)
+**перед стартом**. После изменения переменных перекомпилируйте приложение и
+запустите `Main` из IDE или выполните из `student-java`:
 
 ```bash
-cd student-java
 javac -d out src/lab2/*.java
-
-./lab2 <target> <strategy> [arg] [log]        # обёртка над java -cp out lab2.Main
-java -cp out lab2.Stress 10000 none v1         # этап 0
-java -cp out lab2.MiniStress acqrel 2000 10000 # этап 7
+./lab2
 ```
 
-Не запускайте полный `dfs` для `collector-nostep3-2x1`: это 3,7 млн расписаний, на M4 около 9 минут. Для этой программы только `bounded 0..3`.
+Аргументы командной строки больше не принимаются. Примеры CLI в разделах выше
+и в исходной методичке обозначают сценарии; их параметры теперь переносятся
+в переменные `Main` по таблице ниже. Форматы результатов и алгоритмы прежние.
+
+| Переменные Main | Назначение |
+|---|---|
+| `EXPERIMENT` | `SCHEDULER` (этапы 1–6), `STRESS` (этап 0), `MINI_STRESS` (этап 7) |
+| `TARGET` | `withdraw-v0/v1/v2`, `transfer`, `collector-<variant>-<writers>x<n>` |
+| `STRATEGY` | `FIRST`, `RANDOM`, `RANDOMS`, `REPLAY`, `DFS`, `BOUNDED` |
+| `LOG` | Пошаговый лог `FIRST`, `RANDOM` и `REPLAY` |
+| `RANDOM_SEED`, `RANDOM_RUNS`, `REPLAY_RUNS` | Seed (начальный для `RANDOMS`), число seed'ов, проверок воспроизведения |
+| `REPLAY_TRACE`, `PREEMPTION_BOUND` | Трасса `REPLAY` и предел вытеснений `BOUNDED` |
+| `STRESS_RUNS`, `STRESS_WINDOW`, `STRESS_VERSION` | Число прогонов, `none/yield/sleep`, `v1/v2` |
+| `MEMORY_MODE`, `MEMORY_ROUNDS`, `MEMORY_CELLS` | `plain/acqrel/volatile/naive`, раунды и размер пачки |
+
+| Сценарий из методички | Что задать в Main |
+|---|---|
+| `withdraw-v1 first` | `EXPERIMENT = SCHEDULER`, `TARGET = "withdraw-v1"`, `STRATEGY = FIRST` |
+| `transfer replay AB log` | `TARGET = "transfer"`, `STRATEGY = REPLAY`, `REPLAY_TRACE = "AB"`, `LOG = true` |
+| `withdraw-v1 randoms 1000` | `TARGET = "withdraw-v1"`, `STRATEGY = RANDOMS`, `RANDOM_SEED = 0`, `RANDOM_RUNS = 1000`, `REPLAY_RUNS = 10` |
+| `collector-ok-2x1 bounded 2` | `TARGET = "collector-ok-2x1"`, `STRATEGY = BOUNDED`, `PREEMPTION_BOUND = 2` |
+| `Stress 10000 yield v1` | `EXPERIMENT = STRESS`, `STRESS_RUNS = 10000`, `STRESS_WINDOW = "yield"`, `STRESS_VERSION = "v1"` |
+| `MiniStress acqrel 2000 10000` | `EXPERIMENT = MINI_STRESS`, `MEMORY_MODE = "acqrel"`, `MEMORY_ROUNDS = 2000`, `MEMORY_CELLS = 10000` |
+
+Для значений enum используйте префикс как в исходнике: `Experiment.STRESS`,
+`ScheduleStrategy.REPLAY`. В строках с `TARGET` подразумевается `EXPERIMENT = SCHEDULER`.
+В режиме `naive` фактическая пачка — одна ячейка, число раундов — `MEMORY_ROUNDS * MEMORY_CELLS`.
+
+Отдельные точки входа `java -cp out lab2.Stress` и `java -cp out lab2.MiniStress`
+также работают без аргументов и используют настройки из `Main`.
+
+Не запускайте полный `DFS` для `collector-nostep3-2x1`: это 3,7 млн расписаний,
+на M4 около 9 минут. Для этой программы используйте `BOUNDED` с `PREEMPTION_BOUND` от 0 до 3.
