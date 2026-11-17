@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ZipfTest {
 
-    private static final long[] VALUES = Zipf.generate();
+    private static final long[] VALUES = Zipf.generate(1 << 20, 1023, 1.15, 42);
 
     @Test
     void generatesTwoToTheTwentiethValuesInRange() {
@@ -21,7 +21,7 @@ class ZipfTest {
 
     @Test
     void isDeterministicForFixedSeed() {
-        assertArrayEquals(VALUES, Zipf.generate());
+        assertArrayEquals(VALUES, Zipf.generate(1 << 20, 1023, 1.15, 42));
     }
 
     @Test

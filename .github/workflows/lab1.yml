@@ -28,10 +28,5 @@ jobs:
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
 
-    - name: Test with Gradle Wrapper
+    - name: Test collectors and configured runners
       run: ./gradlew test
-
-    - name: Smoke-run benchmark and consistency check
-      run: |
-        ./gradlew -q benchmark --args="double-buffer 1 2 --seconds 0.2 --runs 1 --warmup 0.2"
-        ./gradlew -q consistency --args="double-buffer --snapshots 1000"

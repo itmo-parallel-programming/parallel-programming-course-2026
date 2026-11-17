@@ -5,16 +5,7 @@ import java.util.SplittableRandom;
 
 public final class Zipf {
 
-    public static final int DEFAULT_SIZE = 1 << 20;
-    public static final int DEFAULT_MAX_VALUE = 1023;
-    public static final double DEFAULT_EXPONENT = 1.15;
-    public static final long DEFAULT_SEED = 42;
-
     private Zipf() {
-    }
-
-    public static long[] generate() {
-        return generate(DEFAULT_SIZE, DEFAULT_MAX_VALUE, DEFAULT_EXPONENT, DEFAULT_SEED);
     }
 
     public static long[] generate(int size, int maxValue, double exponent, long seed) {
